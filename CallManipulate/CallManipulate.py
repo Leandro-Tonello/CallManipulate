@@ -9,7 +9,16 @@ from tkinter import filedialog, messagebox
 from openpyxl import Workbook
 from openpyxl.styles import PatternFill, Font, Border, Side
 from tkinter import ttk
+import subprocess
 
+import subprocess
+
+# Ruta al archivo principal de tu aplicaciÃ³n
+archivo_principal = "CallManager.py"
+
+# Ejecutar PyInstaller en el archivo principal con la opciÃ³n --noconsole
+comando = f"pyinstaller --onefile --noconsole {archivo_principal}"
+subprocess.run(comando, shell=True)
 
 # Definicion de la clase Persona
 class Persona:
@@ -137,7 +146,7 @@ def generar_archivo():
     except Exception as e:
         messagebox.showerror("Error", str(e))
 
-# Función para seleccionar un archivo
+# Funciï¿½n para seleccionar un archivo
 def seleccionar_archivo():
     archivo = filedialog.askopenfilename(filetypes=[("Archivos Excel", "*.xlsx")])
     entrada_archivo.delete(0, tk.END)
@@ -154,27 +163,27 @@ style.configure("TButton", font=("Arial", 12), padding=6)
 lbl_archivo = ttk.Label(window, text="Seleccione el Excel:", font=("Arial", 12, "bold"))
 lbl_archivo.pack(pady=10)
 
-# Marco que contiene el campo de entrada y el botón "Seleccionar"
+# Marco que contiene el campo de entrada y el botï¿½n "Seleccionar"
 frame_seleccionar = ttk.Frame(window)
 frame_seleccionar.pack(pady=5)
 
-# Campo de entrada deshabilitado para mostrar la ubicación del archivo seleccionado
+# Campo de entrada deshabilitado para mostrar la ubicacion del archivo seleccionado
 entrada_archivo = ttk.Entry(frame_seleccionar, width=50, font=("Arial", 12), state="enabled")
 entrada_archivo.pack(side=tk.LEFT, padx=5)
 
-# Botón para seleccionar el archivo
+# Botï¿½n para seleccionar el archivo
 btn_seleccionar = ttk.Button(frame_seleccionar, text="Seleccionar", command=seleccionar_archivo)
 btn_seleccionar.pack(side=tk.LEFT)
 
-# Botón de ejecutar
+# Botï¿½n de ejecutar
 btn_ejecutar = ttk.Button(window, text="Ejecutar", command=generar_archivo)
 btn_ejecutar.pack(pady=10)
 
-# Etiqueta para mostrar la ubicación del archivo generado
+# Etiqueta para mostrar la ubicacion del archivo generado
 resultado_archivo = ttk.Label(window, text="")
 resultado_archivo.pack()
 
-# Calcula el tamaño de la ventana teniendo en cuenta el espacio requerido por los elementos internos
+# Calcula el tamano de la ventana teniendo en cuenta el espacio requerido por los elementos internos
 window.update_idletasks()
 width = max(window.winfo_reqwidth(), 800) + 10
 height = max(window.winfo_reqheight(), 200) + 10
