@@ -9,16 +9,6 @@ from tkinter import filedialog, messagebox
 from openpyxl import Workbook
 from openpyxl.styles import PatternFill, Font, Border, Side
 from tkinter import ttk
-import subprocess
-
-import subprocess
-
-# Ruta al archivo principal de tu aplicación
-archivo_principal = "CallManager.py"
-
-# Ejecutar PyInstaller en el archivo principal con la opción --noconsole
-comando = f"pyinstaller --onefile --noconsole {archivo_principal}"
-subprocess.run(comando, shell=True)
 
 # Definicion de la clase Persona
 class Persona:
@@ -52,14 +42,14 @@ def generar_archivo():
             raise ValueError("No se selecciono un archivo de entrada.")
 
         # Busqueda de la info en el Excel
-        datos = pd.read_excel(ruta_archivo, usecols=[0], engine="openpyxl")
+        datos = pd.read_excel(ruta_archivo, usecols=[0] , header=None, engine="openpyxl",)
         columna_0 = datos.iloc[:, 0]  # Acceder a la columna 0 del DataFrame
         texto = ""
         for valor in columna_0:
-            texto += str(valor) + "\n"
+            texto +="\n" + str(valor) + "\n"
 
         # Patrones de expresiones regulares
-        patron_persona = r"\n(\d+)\n\s+Nombre\s+:\s+([^:\n]+)\s+Doc\.\s+:\s+DU\s+([^:\n]+)([\s\S]+?)(?=\n\d+\n|\Z)"
+        patron_persona = r"\n?(\d+)\n\s+Nombre\s+:\s+([^:\n]+)\s+Doc\.\s+:\s+DU\s+([^:\n]+)([\s\S]+?)(?=\n\d+\n|\Z)"
         patron_telefono = r"Telefono\s+:\s+([^:\n]+)"
         patron_tarjeta = r"\b\d{15,16}\b"
 
