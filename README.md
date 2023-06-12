@@ -15,7 +15,7 @@
 <h2>Uso</h2>
 
 <ol>
-  <li>Ejecuta el script <code>generador_archivo_excel.py</code> utilizando Python 3.</li>
+  <li>Ejecuta el script <code>CallManipulate.py</code> utilizando Python 3.</li>
   <li>Se abrirá una ventana de interfaz gráfica.</li>
   <li>Haz clic en el botón "Seleccionar" para seleccionar el archivo de entrada en formato Excel.</li>
   <li>Haz clic en el botón "Ejecutar" para generar el archivo de Excel con los datos extraídos.</li>
