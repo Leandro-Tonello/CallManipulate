@@ -1,6 +1,6 @@
 <h1>CallManipulate</h1>
 
-<p>Este script de Python permite generar un archivo de Excel ordenado segun las necesidades del usuaario a partir de datos extraídos de un archivo de entrada tambien en formato Excel.</p>
+<p>Este script de Python permite generar un archivo de Excel ordenado segun las necesidades del usuario a partir de datos extraídos de un archivo de entrada tambien en formato Excel.</p>
 
 <h2>Requisitos</h2>
 
