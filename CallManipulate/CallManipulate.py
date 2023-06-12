@@ -17,20 +17,17 @@ class Persona:
         self.nombre = nombre
         self.telefono = telefono
         self.documento = documento
-        self.tarjetas = self.etiquetar_tarjetas(tarjetas)
+        self.visa = ""
+        self.master = ""
+        self.amex = ""
 
-    def etiquetar_tarjetas(self, tarjetas):
-        etiquetas = []
         for tarjeta in tarjetas:
             if tarjeta.startswith("4"):
-                etiquetas.append("Visa: " + tarjeta)
+                self.visa = tarjeta
             elif tarjeta.startswith("5"):
-                etiquetas.append("Master: " + tarjeta)
+                self.master = tarjeta
             elif tarjeta.startswith("3"):
-                etiquetas.append("Amex: " + tarjeta)
-            else:
-                etiquetas.append(tarjeta)
-        return etiquetas
+                self.amex = tarjeta
 
 
 def generar_archivo():
@@ -42,11 +39,11 @@ def generar_archivo():
             raise ValueError("No se selecciono un archivo de entrada.")
 
         # Busqueda de la info en el Excel
-        datos = pd.read_excel(ruta_archivo, usecols=[0] , header=None, engine="openpyxl",)
+        datos = pd.read_excel(ruta_archivo, usecols=[0], header=None, engine="openpyxl", )
         columna_0 = datos.iloc[:, 0]  # Acceder a la columna 0 del DataFrame
         texto = ""
         for valor in columna_0:
-            texto +="\n" + str(valor) + "\n"
+            texto += "\n" + str(valor) + "\n"
 
         # Patrones de expresiones regulares
         patron_persona = r"\n?(\d+)\n\s+Nombre\s+:\s+([^:\n]+)\s+Doc\.\s+:\s+DU\s+([^:\n]+)([\s\S]+?)(?=\n\d+\n|\Z)"
@@ -62,7 +59,9 @@ def generar_archivo():
             documento = match_persona.group(3).strip()
             bloque_persona = match_persona.group(4)
 
-            telefono = re.search(patron_telefono, bloque_persona).group(1).strip().replace(" Int.", "").replace(">", "").replace("Int.", "")
+            telefono = re.search(patron_telefono, bloque_persona).group(1).strip().replace(" Int.", "").replace(">",
+                                                                                                                 "").replace(
+                "Int.", "")
             tarjetas = re.findall(patron_tarjeta, bloque_persona)
 
             persona = Persona(numero_cliente, nombre, telefono, documento, tarjetas)
@@ -75,10 +74,16 @@ def generar_archivo():
         # Crear el DataFrame
         data = []
         for persona in personas:
-            tarjetas = ', '.join(persona.tarjetas)
-            data.append([persona.numero_cliente, persona.nombre, persona.telefono, tarjetas])
+            data.append([
+                persona.numero_cliente,
+                persona.nombre,
+                persona.telefono,
+                persona.visa,
+                persona.master,
+                persona.amex
+            ])
 
-        df = pd.DataFrame(data, columns=['Nro', 'Nombre', 'Telefono', 'Tarjetas'])
+        df = pd.DataFrame(data, columns=['Nro', 'Nombre', 'Telefono', 'Visa', 'Master', 'Amex'])
 
         # Escribir los datos en la hoja de calculo
         for row_num, row_data in enumerate(df.values, 2):
@@ -88,7 +93,8 @@ def generar_archivo():
         # Configurar el formato y estilo
         header_fill = PatternFill(fill_type='solid', fgColor='000000')
         header_font = Font(color='FFFFFF', bold=True)
-        data_border = Border(left=Side(style='thin'), right=Side(style='thin'), top=Side(style='thin'), bottom=Side(style='thin'))
+        data_border = Border(left=Side(style='thin'), right=Side(style='thin'), top=Side(style='thin'),
+                             bottom=Side(style='thin'))
         gray_fill = PatternFill(fill_type='solid', fgColor='E9E9E9')
 
         # Aplicar formato y estilo a los encabezados
@@ -136,11 +142,13 @@ def generar_archivo():
     except Exception as e:
         messagebox.showerror("Error", str(e))
 
-# Funci�n para seleccionar un archivo
+
+# Funcion para seleccionar un archivo
 def seleccionar_archivo():
     archivo = filedialog.askopenfilename(filetypes=[("Archivos Excel", "*.xlsx")])
     entrada_archivo.delete(0, tk.END)
     entrada_archivo.insert(0, archivo)
+
 
 # Crear la interfaz de usuario
 window = tk.Tk()
@@ -153,30 +161,24 @@ style.configure("TButton", font=("Arial", 12), padding=6)
 lbl_archivo = ttk.Label(window, text="Seleccione el Excel:", font=("Arial", 12, "bold"))
 lbl_archivo.pack(pady=10)
 
-# Marco que contiene el campo de entrada y el bot�n "Seleccionar"
+# Marco que contiene el campo de entrada y el boton "Seleccionar"
 frame_seleccionar = ttk.Frame(window)
 frame_seleccionar.pack(pady=5)
 
 # Campo de entrada deshabilitado para mostrar la ubicacion del archivo seleccionado
-entrada_archivo = ttk.Entry(frame_seleccionar, width=50, font=("Arial", 12), state="enabled")
+entrada_archivo = ttk.Entry(frame_seleccionar, width=50)
 entrada_archivo.pack(side=tk.LEFT, padx=5)
 
-# Bot�n para seleccionar el archivo
+# Boton "Seleccionar" para elegir un archivo
 btn_seleccionar = ttk.Button(frame_seleccionar, text="Seleccionar", command=seleccionar_archivo)
-btn_seleccionar.pack(side=tk.LEFT)
+btn_seleccionar.pack(side=tk.LEFT, padx=5)
 
-# Bot�n de ejecutar
-btn_ejecutar = ttk.Button(window, text="Ejecutar", command=generar_archivo)
-btn_ejecutar.pack(pady=10)
+# Boton "Generar" para generar el archivo Excel
+btn_generar = ttk.Button(window, text="Generar", style="TButton", command=generar_archivo)
+btn_generar.pack(pady=10)
 
 # Etiqueta para mostrar la ubicacion del archivo generado
-resultado_archivo = ttk.Label(window, text="")
+resultado_archivo = ttk.Label(window, text="", font=("Arial", 12))
 resultado_archivo.pack()
-
-# Calcula el tamano de la ventana teniendo en cuenta el espacio requerido por los elementos internos
-window.update_idletasks()
-width = max(window.winfo_reqwidth(), 800) + 10
-height = max(window.winfo_reqheight(), 200) + 10
-window.geometry(f"{width}x{height}")
 
 window.mainloop()
