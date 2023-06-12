@@ -10,6 +10,7 @@ env/
 # Archivos de configuración específicos del entorno (por ejemplo, para PyCharm o VS Code)
 .vscode/
 .idea/
+.vs/
 
 # Otros archivos y directorios generados
 *.log
