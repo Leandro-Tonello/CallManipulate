@@ -1,32 +1,21 @@
+#Algoritmo de lhun
 class Tarjeta:
     def __init__(self, numero):
         self.numero = numero
 
     def ValidarTarjeta(self):
-        tarjetaInvertida = ""
-        # Se invierte el string tarjeta
-        for x in self.numero:
-            tarjetaInvertida = x + tarjetaInvertida
-
-        InvertidoMultiplicado = ""
-        #Multiplicar x2 salteando una vez por iteracion un elemento del string
-        for i in range(0, len(tarjetaInvertida), 2):
-            par = tarjetaInvertida[i:i+2]
-            try:
-                numeroMultiplicado = int(par[1]) * 2
-            except IndexError:
-                numeroMultiplicado = 0
-        
-            # str numeroMultiplicado convierte en una cadena de texto
-            # int digito convierte cada valor de esta cadena en un entero
-            if numeroMultiplicado > 9:
-                numeroMultiplicado = sum(int(digito) for digito in str(numeroMultiplicado))
-
-            InvertidoMultiplicado += str(par[0]) + str(numeroMultiplicado)
+        tarjetaInvertida = self.numero[::-1]  # Se invierte el número de la tarjeta
 
         valorAValidar = 0
-        for x in InvertidoMultiplicado:
-            valorAValidar += int(x)
+        for i in range(len(tarjetaInvertida)):
+            digito = int(tarjetaInvertida[i])
+            if i % 2 == 1:  # Multiplicar por 2 los dígitos en posición impar
+                numeroMultiplicado = digito * 2
+                if numeroMultiplicado > 9:
+                    numeroMultiplicado = numeroMultiplicado - 9  # Restar 9 si el resultado es mayor a 9
+                valorAValidar += numeroMultiplicado
+            else:
+                valorAValidar += digito
 
         if valorAValidar % 10 == 0:
             return "Tarjeta valida."
