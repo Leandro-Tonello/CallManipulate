@@ -61,13 +61,13 @@ def generar_archivo():
                 persona.nombre,
                 persona.documento,
                 persona.telefono,
-                persona.visa,
+                "'"+persona.visa,
                 persona.validateVisa,
-                persona.master,
+                "'"+persona.master,
                 persona.validateMaster,
-                persona.amex,
+                "'"+persona.amex,
                 persona.validateAmex,
-                persona.discover,
+                "'"+persona.discover,
                 persona.validateDiscover
             ])
 
