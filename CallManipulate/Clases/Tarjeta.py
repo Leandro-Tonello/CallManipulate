@@ -17,12 +17,12 @@ class Tarjeta:
             except IndexError:
                 numeroMultiplicado = 0
         
-        # str numeroMultiplicado convierte en una cadena de texto
-        # int digito convierte cada valor de esta cadena en un entero
-        if numeroMultiplicado > 9:
-            numeroMultiplicado = sum(int(digito) for digito in str(numeroMultiplicado))
+            # str numeroMultiplicado convierte en una cadena de texto
+            # int digito convierte cada valor de esta cadena en un entero
+            if numeroMultiplicado > 9:
+                numeroMultiplicado = sum(int(digito) for digito in str(numeroMultiplicado))
 
-        InvertidoMultiplicado += str(par[0]) + str(numeroMultiplicado)
+            InvertidoMultiplicado += str(par[0]) + str(numeroMultiplicado)
 
         valorAValidar = 0
         for x in InvertidoMultiplicado:
