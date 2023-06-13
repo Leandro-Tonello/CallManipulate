@@ -85,6 +85,7 @@ def generar_archivo():
             data.append([
                 persona.numero_cliente,
                 persona.nombre,
+                persona.documento,
                 persona.telefono,
                 persona.visa,
                 persona.master,
@@ -92,7 +93,7 @@ def generar_archivo():
                 persona.discover
             ])
 
-        df = pd.DataFrame(data, columns=['Nro', 'Nombre', 'Telefono', 'Visa', 'Master', 'Amex', 'Discover'])
+        df = pd.DataFrame(data, columns=['Nro', 'Nombre','Documento', 'Telefono', 'Visa', 'Master', 'Amex', 'Discover'])
 
         # Escribir los datos en la hoja de calculo
         for row_num, row_data in enumerate(df.values, 2):
