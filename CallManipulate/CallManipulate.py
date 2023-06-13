@@ -9,34 +9,8 @@ from tkinter import filedialog, messagebox
 from openpyxl import Workbook
 from openpyxl.styles import PatternFill, Font, Border, Side
 from tkinter import ttk
-
-# Definicion de la clase Persona
-class Persona:
-    def __init__(self, numero_cliente, nombre, telefono, documento, tarjetas):
-        self.numero_cliente = numero_cliente
-        self.nombre = nombre
-        self.telefono = telefono
-        self.documento = documento
-        self.visa = ""
-        self.validateVisa = ""
-        self.master = ""
-        self.validateMaster = ""
-        self.amex = ""
-        self.validateAmex = ""
-        self.discover = ""
-        self.validateDiscover = ""
-
-
-        for tarjeta in tarjetas:
-            if tarjeta.startswith("4"):
-                self.visa = tarjeta
-            elif tarjeta.startswith("5"):
-                self.master = tarjeta
-            elif tarjeta.startswith("3"):
-                self.amex = tarjeta
-            elif tarjeta.startswith("6"):
-                self.discover = tarjeta 
-
+from Clases.Tarjeta import Tarjeta
+from Clases.Persona import Persona
 
 def generar_archivo():
     try:
@@ -88,12 +62,16 @@ def generar_archivo():
                 persona.documento,
                 persona.telefono,
                 persona.visa,
+                persona.validateVisa,
                 persona.master,
+                persona.validateMaster,
                 persona.amex,
-                persona.discover
+                persona.validateAmex,
+                persona.discover,
+                persona.validateDiscover
             ])
 
-        df = pd.DataFrame(data, columns=['Nro', 'Nombre','Documento', 'Telefono', 'Visa', 'Master', 'Amex', 'Discover'])
+        df = pd.DataFrame(data, columns=['Nro', 'Nombre','Documento', 'Telefono', 'Visa','Validado?', 'Master','Validado?', 'Amex','Validado?', 'Discover', 'Validado?'])
 
         # Escribir los datos en la hoja de calculo
         for row_num, row_data in enumerate(df.values, 2):
