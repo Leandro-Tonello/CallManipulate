@@ -18,8 +18,14 @@ class Persona:
         self.telefono = telefono
         self.documento = documento
         self.visa = ""
+        self.validateVisa = ""
         self.master = ""
+        self.validateMaster = ""
         self.amex = ""
+        self.validateAmex = ""
+        self.discover = ""
+        self.validateDiscover = ""
+
 
         for tarjeta in tarjetas:
             if tarjeta.startswith("4"):
@@ -28,6 +34,8 @@ class Persona:
                 self.master = tarjeta
             elif tarjeta.startswith("3"):
                 self.amex = tarjeta
+            elif tarjeta.startswith("6"):
+                self.discover = tarjeta 
 
 
 def generar_archivo():
@@ -80,10 +88,11 @@ def generar_archivo():
                 persona.telefono,
                 persona.visa,
                 persona.master,
-                persona.amex
+                persona.amex,
+                persona.discover
             ])
 
-        df = pd.DataFrame(data, columns=['Nro', 'Nombre', 'Telefono', 'Visa', 'Master', 'Amex'])
+        df = pd.DataFrame(data, columns=['Nro', 'Nombre', 'Telefono', 'Visa', 'Master', 'Amex', 'Discover'])
 
         # Escribir los datos en la hoja de calculo
         for row_num, row_data in enumerate(df.values, 2):
