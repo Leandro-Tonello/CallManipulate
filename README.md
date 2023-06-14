@@ -25,4 +25,6 @@
 
 <p>Ten en cuenta que el archivo de entrada debe tener un formato específico con los datos organizados de acuerdo a las reglas establecidas en el script. Asegúrate de seguir el formato adecuado para obtener resultados correctos.</p>
 
-![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+
+
+  ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
