@@ -43,7 +43,7 @@ def generar_archivo():
 
             telefono = re.search(patron_telefono, bloque_persona).group(1).strip().replace(" Int.", "").replace(">",
                                                                                                                  "").replace(
-                "Int.", "")
+                "Int.", "").replace(".","")
             tarjetas = re.findall(patron_tarjeta, bloque_persona)
 
             persona = Persona(numero_cliente, nombre, telefono, documento, tarjetas)
@@ -125,7 +125,6 @@ def generar_archivo():
 
         # Mostrar la ubicacion del archivo generado
         resultado_archivo.config(text="Archivo generado:\n" + ruta_guardado)
-        messagebox.showinfo("Proceso completado", "El archivo se ha generado correctamente.")
 
     except Exception as e:
         messagebox.showerror("Error", str(e))
