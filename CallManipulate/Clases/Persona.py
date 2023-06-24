@@ -2,9 +2,10 @@ from Clases.Tarjeta import Tarjeta
 
 # Definicion de la clase Persona
 class Persona:
-    def __init__(self, numero_cliente, nombre, telefono, documento, tarjetas):
+    def __init__(self, numero_cliente, nombre, fechaNacimiento, telefono, documento, tarjetas):
         self.numero_cliente = numero_cliente
         self.nombre = nombre
+        self.fechaNacimiento = fechaNacimiento
         self.telefono = telefono
         self.documento = documento
         self.visa = ""

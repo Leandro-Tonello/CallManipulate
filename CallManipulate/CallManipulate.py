@@ -31,6 +31,7 @@ def generar_archivo():
         patron_persona = r"\n?(\d+)\n\s+Nombre\s+:\s+([^:\n]+)\s+Doc\.\s+:\s+DU\s+([^:\n]+)([\s\S]+?)(?=\n\d+\n|\Z)"
         patron_telefono = r"Telefono\s+:\s+([^:\n]+)"
         patron_tarjeta = r"\b\d{15,16}\b"
+        patron_fecha_nacimiento = r"Fe\.Nac\. : (\d{2}-\d{2}-\d{4})"
 
         # Extraccion de informacion de todas las personas
         personas = []
@@ -46,7 +47,10 @@ def generar_archivo():
                 "Int.", "").replace(".","")
             tarjetas = re.findall(patron_tarjeta, bloque_persona)
 
-            persona = Persona(numero_cliente, nombre, telefono, documento, tarjetas)
+            fecha_nacimiento_match = re.search(patron_fecha_nacimiento, bloque_persona)
+            fecha_nacimiento = fecha_nacimiento_match.group(1) if fecha_nacimiento_match else ""
+
+            persona = Persona(numero_cliente, nombre,fecha_nacimiento, telefono, documento, tarjetas)
             personas.append(persona)
 
         # Crear un libro y una hoja de calculo con openpyxl
@@ -59,6 +63,7 @@ def generar_archivo():
             data.append([
                 persona.numero_cliente,
                 persona.nombre,
+                persona.fechaNacimiento,
                 persona.documento,
                 persona.telefono,
                 "'"+persona.visa,
@@ -71,7 +76,7 @@ def generar_archivo():
                 persona.validateDiscover
             ])
 
-        df = pd.DataFrame(data, columns=['Nro', 'Nombre','Documento', 'Telefono', 'Visa','Validado?', 'Master','Validado?', 'Amex','Validado?', 'Discover', 'Validado?'])
+        df = pd.DataFrame(data, columns=['Nro', 'Nombre','F.Nacimiento', 'Documento', 'Telefono', 'Visa','Validado?', 'Master','Validado?', 'Amex','Validado?', 'Discover', 'Validado?'])
 
         # Escribir los datos en la hoja de calculo
         for row_num, row_data in enumerate(df.values, 2):
